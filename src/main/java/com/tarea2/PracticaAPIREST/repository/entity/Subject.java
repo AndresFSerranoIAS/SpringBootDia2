@@ -24,7 +24,7 @@ public class Subject {
     @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL)
     private List<Student> students = new ArrayList<>();
 
-    @OneToOne(mappedBy = "teacher")
+    @OneToOne
     private Teacher teacher;
 
     //Constructores

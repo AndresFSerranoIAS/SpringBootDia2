@@ -24,7 +24,7 @@ public class Teacher {
     private Integer teacherAge;
 
 
-    @OneToOne(mappedBy = "subject")
+    @OneToOne
     private Subject subject;
 
     //Constructores

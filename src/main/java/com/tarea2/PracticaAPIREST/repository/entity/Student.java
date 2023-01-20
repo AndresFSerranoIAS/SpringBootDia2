@@ -1,5 +1,6 @@
 package com.tarea2.PracticaAPIREST.repository.entity;
 
+import com.tarea2.PracticaAPIREST.dto.StudentDTO;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Formula;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -19,7 +20,7 @@ public class Student {
     private Date studentBirthDate;
     @Column(name="STUDENT_IDDOCUMENT",nullable = false)
     private Integer studentIdDocument;
-    @Formula("YEAR(CURDATE()) - YEAR(BIRTH_DATE)")
+    @Formula("YEAR(CURRENT_DATE) - YEAR(birth_date) - (RIGHT(CURRENT_DATE, 5) < RIGHT(birth_date, 5))")
     @Column(name = "AGE",nullable = false)
     private Integer studentAge;
 
@@ -44,6 +45,11 @@ public class Student {
     public Student(Integer studentId, String studentFirstName) {
         this.studentId = studentId;
         this.studentFirstName = studentFirstName;
+    }
+
+    public Student(StudentDTO studentDTO) {
+        this.studentId = studentDTO.getId();
+        this.studentFirstName = studentDTO.getFirstName();
     }
 
     //Getter y Setters
