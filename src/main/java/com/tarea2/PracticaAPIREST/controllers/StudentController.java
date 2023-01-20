@@ -31,4 +31,13 @@ public class StudentController {
     public ResponseEntity<String> erasePerson(@PathVariable Integer id){
         return new ResponseEntity<>(iStudentService.delete(id),HttpStatus.OK);
     }
+    @GetMapping("/{id}")
+    public ResponseEntity<?> addPerson(@PathVariable Integer id){
+        if(iStudentService.getOneStudent(id)==null){
+            return new ResponseEntity<>("No se obtuvo ningún usuario con el id "+ id ,HttpStatus.BAD_REQUEST);
+        }else{
+            return new ResponseEntity<>(iStudentService.getOneStudent(id),HttpStatus.OK);
+        }
+
+    }
 }

@@ -59,5 +59,14 @@ public class StudentServiceImplementation implements IStudentService {
         }
 
     }
+    @Override
+    public Student getOneStudent(Integer id) {
+        Optional<Student> student = studentrepository.findById(id);
+        if(student.isPresent()){
+            return student.get();
+        }else{
+            return null;
+        }
+    }
     }
 
