@@ -50,6 +50,10 @@ public class Student {
     public Student(StudentDTO studentDTO) {
         this.studentId = studentDTO.getId();
         this.studentFirstName = studentDTO.getFirstName();
+        this.studentLastName = studentDTO.getLastName();
+        this.studentIdDocument = studentDTO.getIdDocument();
+        this.subject = studentDTO.getSubject();
+        this.studentBirthDate = studentDTO.getBirthDate();
     }
 
     //Getter y Setters

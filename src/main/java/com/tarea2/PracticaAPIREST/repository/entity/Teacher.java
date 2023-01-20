@@ -1,13 +1,14 @@
 package com.tarea2.PracticaAPIREST.repository.entity;
+import com.tarea2.PracticaAPIREST.dto.TeacherDTO;
+import jakarta.persistence.*;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import java.util.Optional;
 
 @Entity
+@Table(name ="TEACHER")
 public class Teacher {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "TEACHER_ID",unique = true)
     private Integer teacherId;
 
@@ -23,8 +24,8 @@ public class Teacher {
     @Column(name = "TEACHER_AGE", nullable = false)
     private Integer teacherAge;
 
-
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "SUBJECT_ID")
     private Subject subject;
 
     //Constructores
@@ -40,9 +41,13 @@ public class Teacher {
         this.subject = subject;
     }
 
-    public Teacher(Integer teacherId, String teacherFirstName) {
-        this.teacherId = teacherId;
-        this.teacherFirstName = teacherFirstName;
+    public Teacher(TeacherDTO teacherDTO) {
+        this.teacherId = teacherDTO.getId();
+        this.teacherFirstName = teacherDTO.getFirstName();
+        this.teacherLastName = teacherDTO.getLastName();
+        this.teacherIdDocument = teacherDTO.getIdDocument();
+        this.teacherAge = teacherDTO.getAge();
+        this.subject = teacherDTO.getSubject();
     }
 
     //Getter y Setters

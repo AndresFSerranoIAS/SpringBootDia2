@@ -24,20 +24,21 @@ public class Subject {
     @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL)
     private List<Student> students = new ArrayList<>();
 
-    @OneToOne
-    private Teacher teacher;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "subject")
+    private List<Teacher> teachers = new ArrayList<>();
 
     //Constructores
     public Subject() {
     }
 
-    public Subject(Integer subjectId, String subjectName, String schedule, String topic, List<Student> students, Teacher teacher) {
+    public Subject(Integer subjectId, String subjectName, String schedule, String topic, List<Student> students, List<Teacher> teachers) {
         this.subjectId = subjectId;
         this.subjectName = subjectName;
         this.schedule = schedule;
         this.topic = topic;
         this.students = students;
-        this.teacher = teacher;
+        this.teachers = teachers;
     }
 
     public Subject(Integer subjectId, String subjectName) {
@@ -86,11 +87,11 @@ public class Subject {
         this.students = students;
     }
 
-    public Teacher getTeacher() {
-        return teacher;
+    public List<Teacher> getTeachers() {
+        return teachers;
     }
 
-    public void setTeacher(Teacher teacher) {
-        this.teacher = teacher;
+    public void setTeachers(List<Teacher> teachers) {
+        this.teachers = teachers;
     }
 }
