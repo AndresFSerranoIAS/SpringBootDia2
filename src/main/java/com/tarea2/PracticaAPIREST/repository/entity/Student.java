@@ -4,35 +4,38 @@ import com.tarea2.PracticaAPIREST.dto.StudentDTO;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Formula;
 import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.Date;
 
 @Entity
 public class Student {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column (name = "STUDENT_ID",unique = true)
     private Integer studentId;
     @Column(name="STUDENT_FIRST_NAME",nullable = false)
     private String studentFirstName;
     @Column(name="STUDENT_LAST_NAME",nullable = false)
     private String studentLastName;
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name= "STUDENT_BIRTH_DATE",nullable = false)
-    private Date studentBirthDate;
+    private LocalDate studentBirthDate;
     @Column(name="STUDENT_IDDOCUMENT",nullable = false)
     private Integer studentIdDocument;
-    @Formula("YEAR(CURRENT_DATE) - YEAR(birth_date) - (RIGHT(CURRENT_DATE, 5) < RIGHT(birth_date, 5))")
-    @Column(name = "AGE",nullable = false)
+    @Column(name = "AGE")
     private Integer studentAge;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "SUBJECT_ID")
+    @JoinColumn(name = "SUBJECT_ID",nullable = true)
     private Subject subject;
 
     //Constructores
     public Student() {
     }
 
-    public Student(Integer studentId, String studentFirstName, String studentLastName, Date studentBirthDate, Integer studentIdDocument, Integer studentAge, Subject subject) {
+    public Student(Integer studentId, String studentFirstName, String studentLastName, LocalDate studentBirthDate, Integer studentIdDocument, Integer studentAge, Subject subject) {
         this.studentId = studentId;
         this.studentFirstName = studentFirstName;
         this.studentLastName = studentLastName;
@@ -42,18 +45,15 @@ public class Student {
         this.subject = subject;
     }
 
-    public Student(Integer studentId, String studentFirstName) {
-        this.studentId = studentId;
-        this.studentFirstName = studentFirstName;
-    }
-
-    public Student(StudentDTO studentDTO) {
+    public Student(StudentDTO studentDTO)
+    {
         this.studentId = studentDTO.getId();
         this.studentFirstName = studentDTO.getFirstName();
         this.studentLastName = studentDTO.getLastName();
         this.studentIdDocument = studentDTO.getIdDocument();
         this.subject = studentDTO.getSubject();
         this.studentBirthDate = studentDTO.getBirthDate();
+        this.studentAge = ageCalculator(studentDTO.getBirthDate());
     }
 
     //Getter y Setters
@@ -82,11 +82,11 @@ public class Student {
         this.studentLastName = studentLastName;
     }
 
-    public Date getStudentBirthDate() {
+    public LocalDate getStudentBirthDate() {
         return studentBirthDate;
     }
 
-    public void setStudentBirthDate(Date studentBirthDate) {
+    public void setStudentBirthDate(LocalDate studentBirthDate) {
         this.studentBirthDate = studentBirthDate;
     }
 
@@ -112,5 +112,9 @@ public class Student {
 
     public void setSubject(Subject subject) {
         this.subject = subject;
+    }
+    public Integer ageCalculator(LocalDate birthDate){
+        LocalDate curDate = LocalDate.now();
+        return Period.between(birthDate, curDate).getYears();
     }
 }

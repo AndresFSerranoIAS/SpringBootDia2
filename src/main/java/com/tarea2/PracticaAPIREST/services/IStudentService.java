@@ -5,8 +5,8 @@ import com.tarea2.PracticaAPIREST.dto.StudentDTO;
 import java.util.List;
 
 public interface IStudentService {
-    void save(StudentDTO student);
+    String save(StudentDTO studentDTO);
     List<StudentDTO> getAll();
-    void update(StudentDTO student);
-    void delete(StudentDTO student);
+    String update(StudentDTO studentDTO,Integer id);
+    String delete(Integer id);
 }

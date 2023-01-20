@@ -1,14 +1,17 @@
 package com.tarea2.PracticaAPIREST.repository.entity;
+import com.tarea2.PracticaAPIREST.dto.SubjectDTO;
 import com.tarea2.PracticaAPIREST.dto.TeacherDTO;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Entity
 @Table(name ="TEACHER")
 public class Teacher {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "TEACHER_ID",unique = true)
     private Integer teacherId;
 
@@ -24,21 +27,20 @@ public class Teacher {
     @Column(name = "TEACHER_AGE", nullable = false)
     private Integer teacherAge;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "SUBJECT_ID")
-    private Subject subject;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "teacher")
+    private List<Subject> subjects = new ArrayList<>();
 
     //Constructores
     public Teacher() {
     }
 
-    public Teacher(Integer teacherId, String teacherFirstName, String teacherLastName, Integer teacherIdDocument, Integer teacherAge, Subject subject) {
+    public Teacher(Integer teacherId, String teacherFirstName, String teacherLastName, Integer teacherIdDocument, Integer teacherAge, List<Subject> subjects) {
         this.teacherId = teacherId;
         this.teacherFirstName = teacherFirstName;
         this.teacherLastName = teacherLastName;
         this.teacherIdDocument = teacherIdDocument;
         this.teacherAge = teacherAge;
-        this.subject = subject;
+        this.subjects = subjects;
     }
 
     public Teacher(TeacherDTO teacherDTO) {
@@ -47,7 +49,7 @@ public class Teacher {
         this.teacherLastName = teacherDTO.getLastName();
         this.teacherIdDocument = teacherDTO.getIdDocument();
         this.teacherAge = teacherDTO.getAge();
-        this.subject = teacherDTO.getSubject();
+        this.subjects = teacherDTO.getSubjects();
     }
 
     //Getter y Setters
@@ -91,11 +93,11 @@ public class Teacher {
         this.teacherAge = teacherAge;
     }
 
-    public Subject getSubject() {
-        return subject;
+    public List<Subject> getSubjects() {
+        return subjects;
     }
 
-    public void setSubject(Subject subject) {
-        this.subject = subject;
+    public void setSubjects(List<Subject> subjects) {
+        this.subjects = subjects;
     }
 }

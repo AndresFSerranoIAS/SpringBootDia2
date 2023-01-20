@@ -1,7 +1,10 @@
 package com.tarea2.PracticaAPIREST.repository.entity;
 
+import com.tarea2.PracticaAPIREST.dto.SubjectDTO;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +12,7 @@ import java.util.List;
 public class Subject {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "SUBJECT_ID",unique = true)
     private Integer subjectId;
 
@@ -18,32 +22,45 @@ public class Subject {
     @Column(name = "SCHEDULE",nullable = false)
     private String schedule;
 
-    @Column(name = "TOPIC")
+    @Column(name = "TOPIC", nullable = true)
     private String topic;
 
     @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL)
     private List<Student> students = new ArrayList<>();
 
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "subject")
-    private List<Teacher> teachers = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "TEACHER_ID")
+    private Teacher teacher;
 
     //Constructores
     public Subject() {
     }
 
-    public Subject(Integer subjectId, String subjectName, String schedule, String topic, List<Student> students, List<Teacher> teachers) {
+    public Subject(Integer subjectId, String subjectName, String schedule, String topic, List<Student> students, Teacher teacher) {
         this.subjectId = subjectId;
         this.subjectName = subjectName;
         this.schedule = schedule;
         this.topic = topic;
         this.students = students;
-        this.teachers = teachers;
+        this.teacher = teacher;
     }
 
     public Subject(Integer subjectId, String subjectName) {
         this.subjectId = subjectId;
         this.subjectName = subjectName;
+    }
+
+    public Subject(SubjectDTO subjectDTO) {
+        this.subjectName = subjectDTO.getSubjectName();
+        this.schedule = subjectDTO.getSchedule();
+        if (subjectDTO.getTopic()!=null){
+            this.topic = subjectDTO.getTopic();
+        }else {
+            this.topic = "Materia impartida por la empresa IAS Software";
+        }
+
+        this.students = subjectDTO.getStudents();
+        this.teacher = subjectDTO.getTeacher();
     }
 
     //Getter y Setters
@@ -87,11 +104,12 @@ public class Subject {
         this.students = students;
     }
 
-    public List<Teacher> getTeachers() {
-        return teachers;
+    public Teacher getTeacher() {
+        return teacher;
     }
 
-    public void setTeachers(List<Teacher> teachers) {
-        this.teachers = teachers;
+    public void setTeacher(Teacher teacher) {
+        this.teacher = teacher;
     }
+
 }

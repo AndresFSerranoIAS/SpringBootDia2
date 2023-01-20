@@ -19,19 +19,16 @@ public class StudentController {
     public ResponseEntity<?> getPersonAll(){
         return new ResponseEntity<>(iStudentService.getAll(), HttpStatus.OK);
     }
-    @PostMapping()
+    @PostMapping("/create")
     public ResponseEntity<?> addPerson(@RequestBody StudentDTO studentDTO){
-        iStudentService.save(studentDTO);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(iStudentService.save(studentDTO),HttpStatus.OK);
     }
-    @PutMapping()
-    public ResponseEntity<?> changePerson(@RequestBody StudentDTO studentDTO){
-        iStudentService.update(studentDTO);
-        return new ResponseEntity<>(HttpStatus.OK);
+    @PutMapping("/modify/{id}")
+    public ResponseEntity<?> changePerson(@RequestBody StudentDTO studentDTO, @PathVariable Integer id){
+        return new ResponseEntity<>(iStudentService.update(studentDTO, id),HttpStatus.OK);
     }
-    @DeleteMapping()
-    public ResponseEntity<?> erasePerson(@RequestBody StudentDTO studentDTO){
-        iStudentService.delete(studentDTO);
-        return new ResponseEntity<>(HttpStatus.OK);
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> erasePerson(@PathVariable Integer id){
+        return new ResponseEntity<>(iStudentService.delete(id),HttpStatus.OK);
     }
 }

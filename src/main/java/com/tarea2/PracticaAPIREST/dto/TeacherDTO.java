@@ -10,7 +10,7 @@ public class TeacherDTO {
     private String lastName;
     private Integer idDocument;
     private Integer age;
-    private Subject subject;
+    private List<Subject> subjects;
 
     //Constructores
     public TeacherDTO(){
@@ -23,7 +23,7 @@ public class TeacherDTO {
         this.lastName = teacher.getTeacherLastName();
         this.idDocument = teacher.getTeacherIdDocument();
         this.age= teacher.getTeacherAge();
-        this.subject = teacher.getSubject();
+        this.subjects = teacher.getSubjects();
     }
 
     //Getters y Setters
@@ -67,11 +67,11 @@ public class TeacherDTO {
         this.age = age;
     }
 
-    public Subject getSubject() {
-        return subject;
+    public List<Subject> getSubjects() {
+        return subjects;
     }
 
-    public void setSubject(Subject subject) {
-        this.subject = subject;
+    public void setSubjects(List<Subject> subjects) {
+        this.subjects = subjects;
     }
 }

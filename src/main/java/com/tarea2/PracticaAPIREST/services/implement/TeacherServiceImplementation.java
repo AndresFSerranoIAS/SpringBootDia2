@@ -1,9 +1,9 @@
 package com.tarea2.PracticaAPIREST.services.implement;
 
+import com.tarea2.PracticaAPIREST.dto.SubjectDTO;
 import com.tarea2.PracticaAPIREST.dto.TeacherDTO;
 import com.tarea2.PracticaAPIREST.repository.ISubjectRepository;
 import com.tarea2.PracticaAPIREST.repository.ITeacherRepository;
-import com.tarea2.PracticaAPIREST.repository.entity.Subject;
 import com.tarea2.PracticaAPIREST.repository.entity.Teacher;
 import com.tarea2.PracticaAPIREST.services.ITeacherService;
 import org.springframework.stereotype.Service;
@@ -47,7 +47,7 @@ public class TeacherServiceImplementation implements ITeacherService {
             teacher.get().setTeacherFirstName(teacherDTO.getFirstName());
             teacher.get().setTeacherLastName(teacherDTO.getLastName());
             teacherRepository.save(teacher.get());
-            return String.format("El profesor %s asociado al ID %d fue eliminado correctamente", teacherDTO.getFirstName(), id);
+            return String.format("El profesor %s asociado al ID %d fue actualizado correctamente", teacherDTO.getFirstName(), id);
         } else {
             return String.format("El profesor asociado al ID %d no fue encontrado a la base de datos", id);
         }
@@ -66,17 +66,12 @@ public class TeacherServiceImplementation implements ITeacherService {
     }
 
     @Override
-    public String setSubject(Integer idSubject, Integer id) {
+    public String setSubject(SubjectDTO subjectDTO, Integer id) {
         Optional<Teacher> teacher = teacherRepository.findById(id);
-        Optional<Subject> subject = subjectRepository.findById(idSubject);
         if (teacher.isPresent()) {
-            if(subject.isPresent()){
-                return "Se asignó la materia al profesor";
-            }else{
-                return "No se obtuvo ninguna materia asociada al ID";
-            }
-        }else{
-            return "No se obtuvo ningún profesor con ese ID";
+
         }
+        return null;
     }
+
 }
