@@ -38,7 +38,8 @@ public class TeacherController {
         return new ResponseEntity(iTeacherService.delete(id),HttpStatus.OK);
     }
     @PostMapping("/modify/subjects/{id}")
-    public ResponseEntity<?> setSubjects( @PathVariable Integer id){
+    public ResponseEntity<Teacher> setSubjects( @PathVariable Integer id){
         return null;
     }
+
 }

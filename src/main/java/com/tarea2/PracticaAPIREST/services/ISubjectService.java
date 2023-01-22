@@ -7,4 +7,6 @@ public interface ISubjectService {
     List<SubjectDTO> getAll();
     String update(SubjectDTO subjectDTO, Integer id);
     String delete(Integer id);
+
+    String saveSubject(SubjectDTO subjectDTO);
 }

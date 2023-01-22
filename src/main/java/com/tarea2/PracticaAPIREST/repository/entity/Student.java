@@ -1,5 +1,6 @@
 package com.tarea2.PracticaAPIREST.repository.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tarea2.PracticaAPIREST.dto.StudentDTO;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Formula;
@@ -9,10 +10,11 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.Date;
 
+
 @Entity
 public class Student {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column (name = "STUDENT_ID",unique = true)
     private Integer studentId;
     @Column(name="STUDENT_FIRST_NAME",nullable = false)
@@ -28,7 +30,8 @@ public class Student {
     private Integer studentAge;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "SUBJECT_ID",nullable = true)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JoinColumn(name = "SUBJECT_ID")
     private Subject subject;
 
     //Constructores

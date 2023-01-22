@@ -3,6 +3,9 @@ package com.tarea2.PracticaAPIREST.dto;
 import com.tarea2.PracticaAPIREST.repository.entity.Student;
 import com.tarea2.PracticaAPIREST.repository.entity.Subject;
 import com.tarea2.PracticaAPIREST.repository.entity.Teacher;
+
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 
 public class SubjectDTO {
@@ -76,6 +79,10 @@ public class SubjectDTO {
 
     public void setStudents(List<Student> students) {
         this.students = students;
+        for (Student student: students){
+            student.setStudentAge(ageCalculator(student.getStudentBirthDate()));
+            student.setSubject(new Subject(this));
+        }
     }
 
     public Teacher getTeacher() {
@@ -84,5 +91,9 @@ public class SubjectDTO {
 
     public void setTeacher(Teacher teacher) {
         this.teacher = teacher;
+    }
+    public Integer ageCalculator(LocalDate birthDate){
+        LocalDate curDate = LocalDate.now();
+        return Period.between(birthDate, curDate).getYears();
     }
 }

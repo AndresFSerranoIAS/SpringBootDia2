@@ -27,4 +27,8 @@ public class SubjectController {
     public ResponseEntity<?> erasePerson(@PathVariable Integer id){
         return new ResponseEntity<>(iSubjectService.delete(id),HttpStatus.OK);
     }
+    @PostMapping("/createSubject")
+    public ResponseEntity<?> addSubject(@RequestBody SubjectDTO subjectDTO){
+        return new ResponseEntity<>(iSubjectService.saveSubject(subjectDTO),HttpStatus.OK);
+    }
 }

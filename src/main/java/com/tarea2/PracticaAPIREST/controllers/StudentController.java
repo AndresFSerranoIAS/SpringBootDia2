@@ -28,7 +28,7 @@ public class StudentController {
         return new ResponseEntity<>(iStudentService.update(studentDTO, id),HttpStatus.OK);
     }
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> erasePerson(@PathVariable Integer id){
+    public ResponseEntity<?> erasePerson(@PathVariable Integer id){
         return new ResponseEntity<>(iStudentService.delete(id),HttpStatus.OK);
     }
     @GetMapping("/{id}")

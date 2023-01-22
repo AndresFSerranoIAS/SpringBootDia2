@@ -1,4 +1,5 @@
 package com.tarea2.PracticaAPIREST.repository.entity;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tarea2.PracticaAPIREST.dto.SubjectDTO;
 import com.tarea2.PracticaAPIREST.dto.TeacherDTO;
 import jakarta.persistence.*;
@@ -7,11 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 @Table(name ="TEACHER")
 public class Teacher {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "TEACHER_ID",unique = true)
     private Integer teacherId;
 
@@ -99,5 +101,8 @@ public class Teacher {
 
     public void setSubjects(List<Subject> subjects) {
         this.subjects = subjects;
+        for (Subject subject: subjects){
+            subject.setTeacher(this);
+        }
     }
 }
